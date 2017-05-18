@@ -7,8 +7,8 @@ android {
         applicationId "com.cq.basefunctionpractice"
         minSdkVersion 17
         targetSdkVersion 24
-        versionCode 1
-        versionName "1.0"
+        versionCode getSelfDefinedVersion("code")
+        versionName getSelfDefinedVersion("name")
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -27,4 +27,22 @@ dependencies {
     compile 'com.android.support:appcompat-v7:24.2.1'
     compile 'com.android.support:design:24.2.1'
     testCompile 'junit:junit:4.12'
+}
+
+def getSelfDefinedVersion(type) {
+    int majorVersion = 1 // 大版本号
+    int minorVersion = 0 // 次版本号
+    Process process = "git rev-list --count HEAD".execute()
+    process.waitFor()
+    int correctedVersion = process.getText().toInteger() // 修正版本号（Git库的提交次数）
+
+    if ("code".equals(type)) {
+        majorVersion * 100000000 + minorVersion * 1000000 + correctedVersion
+    } else if ("name".equals(type)) {
+        String today = new Date().format("yyMMdd")
+        process = "git describe --always".execute()
+        process.waitFor()
+        String sha1 = process.getText().trim() // Git库HEAD的SHA1码前5位
+        "$majorVersion.$minorVersion.$correctedVersion.$today.$sha1"
+    }
 }
