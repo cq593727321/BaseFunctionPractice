@@ -3,4 +3,12 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+
+
+    <color name="tab_text_normal">#212121</color>
+
+
+    <color name="layout_bg">#f1f2f1</color>
+
+    <color name="comui_tab_text_color">#FF333333</color>
 </resources>
