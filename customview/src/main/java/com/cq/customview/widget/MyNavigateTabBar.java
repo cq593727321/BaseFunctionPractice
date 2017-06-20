@@ -9,6 +9,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.TypedValue;
@@ -34,7 +35,7 @@ public class MyNavigateTabBar extends LinearLayout implements View.OnClickListen
 
     private List<ViewHolder> mViewHolderList;
     private OnTabSelectedListener mTabSelectListener;
-    private FragmentActivity mFragmentActivity;
+    private AppCompatActivity mFragmentActivity;
     private String mCurrentTag;
     private String mRestoreTag;
     /*主内容显示区域View的id*/
@@ -157,7 +158,7 @@ public class MyNavigateTabBar extends LinearLayout implements View.OnClickListen
         if (!(getContext() instanceof FragmentActivity)) {
             throw new RuntimeException("parent activity must is extends FragmentActivity");
         }
-        mFragmentActivity = (FragmentActivity) getContext();
+        mFragmentActivity = (AppCompatActivity) getContext();
 
         ViewHolder defaultHolder = null;
 
@@ -195,21 +196,23 @@ public class MyNavigateTabBar extends LinearLayout implements View.OnClickListen
      * @param holder
      */
     private void showFragment(ViewHolder holder) {
-        FragmentTransaction transaction = mFragmentActivity.getSupportFragmentManager().beginTransaction();
-        if (isFragmentShown(transaction, holder.tag)) {
-            return;
-        }
-        setCurrSelectedTabByTag(holder.tag);
+        if (mFragmentActivity != null) {
+            FragmentTransaction transaction = mFragmentActivity.getSupportFragmentManager().beginTransaction();
+            if (isFragmentShown(transaction, holder.tag)) {
+                return;
+            }
+            setCurrSelectedTabByTag(holder.tag);
 
-        Fragment fragment = mFragmentActivity.getSupportFragmentManager().findFragmentByTag(holder.tag);
-        if (fragment == null) {
-            fragment = getFragmentInstance(holder.tag);
-            transaction.add(mMainContentLayoutId, fragment, holder.tag);
-        } else {
-            transaction.show(fragment);
+            Fragment fragment = mFragmentActivity.getSupportFragmentManager().findFragmentByTag(holder.tag);
+            if (fragment == null) {
+                fragment = getFragmentInstance(holder.tag);
+                transaction.add(mMainContentLayoutId, fragment, holder.tag);
+            } else {
+                transaction.show(fragment);
+            }
+            transaction.commit();
+            mCurrentSelectedTab = holder.tabIndex;
         }
-        transaction.commit();
-        mCurrentSelectedTab = holder.tabIndex;
     }
 
     private boolean isFragmentShown(FragmentTransaction transaction, String newTag) {

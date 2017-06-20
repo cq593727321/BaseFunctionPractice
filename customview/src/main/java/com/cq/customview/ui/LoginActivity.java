@@ -130,7 +130,7 @@ public class LoginActivity extends AppCompatActivity {
         Toast.makeText(this, "发布", Toast.LENGTH_LONG).show();
     }
 
-    private class ViewPagerFragment extends FragmentPagerAdapter {
+    public class ViewPagerFragment extends FragmentPagerAdapter {
         List<Fragment> fragmentList;
 
         public ViewPagerFragment(FragmentManager fm, List<Fragment> fragmentList) {
