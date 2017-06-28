@@ -12,5 +12,5 @@
 
     <color name="comui_tab_text_color">#FF333333</color>
 
-    <color name="window_background">#00ff00</color>
+    <color name="window_background">#f1f2f1</color>
 </resources>

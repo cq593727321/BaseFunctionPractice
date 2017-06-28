@@ -1,8 +1,10 @@
 package com.cq.customview.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -24,6 +26,7 @@ import com.cq.customview.fragment.two.ThisFourFragment;
 import com.cq.customview.fragment.two.ThisOneFragment;
 import com.cq.customview.fragment.two.ThisThreeFragment;
 import com.cq.customview.fragment.two.ThisTwoFragment;
+import com.cq.customview.ui.leftMenu.DesignViewActivity;
 import com.cq.customview.widget.MyNavigateTabBar;
 
 import java.util.ArrayList;
@@ -68,12 +71,31 @@ public class DrawableActivity extends AppCompatActivity {
         setupDrawerContent(mNavigationView);
     }
 
-    private void setupDrawerContent(NavigationView mNavigationView) {
+    private void setupDrawerContent(final NavigationView mNavigationView) {
         mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                item.setChecked(true);
-                mDrawerLayout.closeDrawers();
+                switch (item.getItemId()) {
+                    case R.id.nav_home:
+//                        Toast.makeText(DrawableActivity.this, "aaa", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(DrawableActivity.this, DesignViewActivity.class);
+                        startActivity(intent);
+                        break;
+                    case R.id.nav_messages:
+                        Snackbar.make(mNavigationView, "cacac", Snackbar.LENGTH_SHORT).show();
+                        mDrawerLayout.closeDrawers();
+                        break;
+                    case R.id.nav_friends:
+                        Toast.makeText(DrawableActivity.this, "0.0.0.0.0.", Toast.LENGTH_SHORT).show();
+                        mDrawerLayout.closeDrawers();
+                        break;
+                    case R.id.nav_discussion:
+                        Snackbar.make(mNavigationView, "5555555", Snackbar.LENGTH_SHORT).show();
+                        mDrawerLayout.closeDrawers();
+                        break;
+                }
+//                item.setChecked(true);
+
                 return true;
             }
         });
